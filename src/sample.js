@@ -1,4 +1,4 @@
-const treeData = {
+{
   title: "return",
   dataType: "root",
   children: [
@@ -11,22 +11,24 @@ const treeData = {
 			dataType: "unary",
 			global: true,
 			transient: true,
-			derived: true,
-			noChildren: true
+			derived: true
 		  },
 		  {
 			title: "just_static",
 			dataType: "unary",
-			static: true,
-			noChildren: true
+			static: true
 		  },
 		  {
 			title: "global_and_static",
 			dataType: "decimal",
 			static: true,
 			global: true,
-			transient: true,
-			noChildren: true
+			transient: true
+		  },
+		  {
+		    title: "a_system_variable",
+			dataType: "date",
+			system: true
 		  }
 		]
 	 },
@@ -38,32 +40,36 @@ const treeData = {
 	     {
 		   title: "title",
 		   dataType: "text",
-		   noChildren: true
+		   derived: true
 		 },
 		 {
 		   title: "reportable_org",
-		   dataType: "currency",
-		   noChildren: true
+		   dataType: "currency,
+		   derived: true
 		 },
 		 {
 		   title: "position",
 		   dataType: "map",
 		   transient: true,
-		   static: true,
+		   derived: true,
+		   static: true
 		   children: [
 		     {
 			   title: "indivtrusteedirector",
-			   dataType: "unary"
+			   dataType: "unary",
+			   transient: true,
+			   static: true,
+			   derived: true
 			 },
 			 {
 			   title: "officer",
-			   dataType: "unary"
+			   dataType: "unary",
+			   transient: true,
+			   static: true,
+			   derived: true
 			 }
 		   ]
 		 }
 	   ]
 	 }
-	]
-}
-
-export default treeData;
+  ]
