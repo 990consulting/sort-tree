@@ -19,27 +19,25 @@ const hash = {
     static: "fa-snowflake-o",    
 };
 
-var isPurple = false;
-var isItalic = false;
-var isGlobal = false;
-var isStatic = false;
+var isPurple = false, isItalic = false, isGlobal = false, isStatic = false;
 
 class App extends Component {
 
   constructor(props) {
-    super(props);
- 
+    super(props); 
+
     this.state = {
-      treeData: [],
+      treeData: [],       
+      selected: null
     };
   }
 
   rootnode = (treeData) => {    
-    const rootNode = (<div><i className={hash[treeData.dataType]} aria-hidden="true"></i>{treeData.title}</div>);  
+    const rootNode = (<div className='a'><i className={hash[treeData.dataType]} aria-hidden="true"></i>{treeData.title}</div>);  
     this.setState({treeData:[{ title: rootNode,  children: treeData.children}]});
   };
   
-  eachRecursive = (obj) =>
+  eachRecursive = (obj, nodeTitle) =>
   {
       for (var k in obj)
       {          
@@ -53,56 +51,71 @@ class App extends Component {
             
             if(type)
               { 
-                if(derived){                  
+                if(derived){
                   isPurple = true;
                 }  
-                if(transient){                        
+                if(transient){                                          
                   isItalic = true;
                 }   
-                if(global){                  
+                if(global){       
                   isGlobal = true;
                 }  
-                if(static_type){                        
+                if(static_type){              
                   isStatic = true;
                 }                              
+                
                 obj[k]['title'] = (
                   <div>
                     <div className={isItalic ? 'italic':null}>
                       <i className={`custom_i fa ${hash[type]}`} aria-hidden="true"></i>
                       {isGlobal ? 
-                      <i className={`custom_i fa ${hash['global']}`} aria-hidden="true"></i>:null}
+                        <i className={`custom_i fa ${hash['global']}`} aria-hidden="true"></i>:null}
                       {isStatic ? 
-                      <i className={`custom_i fa ${hash['static']}`} aria-hidden="true"></i>:null}
+                        <i className={`custom_i fa ${hash['static']}`} aria-hidden="true"></i>:null}
                       <span className={isPurple ? 'purple':null}>{obj[k]['title']}</span>
                     </div>
                   </div>
-                );
-              }                   
+                );            
+              }
+
             this.eachRecursive(obj[k]);
+
             if(obj[k]['derived'])
-              isPurple = false;      
-            if(obj[k]['transient'])
-              isItalic = false;       
+              isPurple = false;
+            if(obj[k]['transient'])              
+              isItalic = false;
             if(obj[k]['global'])
-              isGlobal = false;      
+              isGlobal = false;
             if(obj[k]['static'])
-              isStatic = false;       
+              isStatic = false;                
           }                        
       }
   }
 
-  componentDidMount() {   
+  componentDidMount() {
     this.rootnode(treeData);
-    this.eachRecursive(treeData.children)
+    this.eachRecursive(treeData.children, null)
   }
 
-  render() {    
+  nodeClick = treeData => {    
+    this.setState({selected:treeData.path})
+  };
+
+  render() {        
     return (
       <div className="App" style={{ height: 400 }}>
          <SortableTree
           treeData={this.state.treeData}
           onChange={treeData => this.setState({ treeData })}
           theme={FileExplorerTheme}
+          onVisibilityToggle= {this.nodeClick}
+          generateNodeProps={rowInfo => ({
+            buttons: [                
+              <div className={JSON.stringify(this.state.selected) === JSON.stringify(rowInfo.path)? "selected":"noSelected"}
+                onClick={() => this.nodeClick(rowInfo)}>
+              </div>
+            ]
+          })}          
         />
       </div>
     );
