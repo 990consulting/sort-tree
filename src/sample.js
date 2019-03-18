@@ -1,4 +1,4 @@
-{
+const treeData = {
   title: "return",
   dataType: "root",
   children: [
@@ -44,7 +44,7 @@
 		 },
 		 {
 		   title: "reportable_org",
-		   dataType: "currency,
+		   dataType: "currency",
 		   derived: true
 		 },
 		 {
@@ -52,7 +52,7 @@
 		   dataType: "map",
 		   transient: true,
 		   derived: true,
-		   static: true
+		   static: true,
 		   children: [
 		     {
 			   title: "indivtrusteedirector",
@@ -73,3 +73,6 @@
 	   ]
 	 }
   ]
+};
+
+export default treeData;
