@@ -1,0 +1,19 @@
+
+  
+  .box-div {
+    border: 1px solid #333;
+  }
+  
+  .box-content{
+    display: flex;
+  }
+  
+  .hide-button {
+  
+    cursor: pointer;
+    position: absolute;
+    font-size: 20px;
+    top: 0px;
+    right: 5px;
+  
+  }
